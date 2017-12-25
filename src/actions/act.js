@@ -1,7 +1,7 @@
-export function fetchDataSuccess(weatherData) {
+export function fetchDataSuccess(fetchedData) {
     return {
-        type: 'ITEMS_FETCH_DATA_SUCCESS',
-        weatherData
+        type: 'FETCH_DATA_SUCCESS',
+        fetchedData
     };
 }
 
@@ -11,9 +11,20 @@ export function setActivePlace(placeIndex) {
         placeIndex
     };
 }
+export function setCities(cities) {
+    return {
+        type: 'SET_CITIES',
+        cities
+    };
+}
 
 export function fetchData(url) {
     return (dispatch) => {
-        console.log('FETCHING DATA')
+        fetch(url)
+        .then(res => res.json())
+        .then(json => {
+            dispatch(fetchDataSuccess(json));
+        })
+        .catch((err)=>console.log(err));
     };
 }

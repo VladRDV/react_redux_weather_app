@@ -9,14 +9,17 @@ import '../styles/App.css';
 
 class App extends Component {
     componentDidMount() {
-        console.log('App component has mounted');
+        this.props.fetchData('http://api.openweathermap.org/data/2.5/weather?q=New York&appid=b1b35bba8b434a28a0be2a3e1071ae5b&units=imperial');
+        this.props.setActivePlace(156);
     }
 
     render() {
        return (
         <div>
             <p>58585</p>
-            <p>{this.props.weather.name}</p>
+            <p>{ this.props.weather.name }</p>
+            <p>{ this.props.activePlace }</p>
+            <p>{ this.props.cities[0].name }</p>
         </div>
         )
     };
@@ -27,7 +30,8 @@ class App extends Component {
 const mapStateToProps = (state) => {
     return {
         weather: state.weatherData,
-        activePlace: state.activePlace
+        activePlace: state.activePlace,
+        cities: state.cities
     };
 };
 

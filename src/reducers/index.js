@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
-import { weatherData, activePlace } from './red';
+import { cities, weatherData , activePlace } from './red';
 
 export default combineReducers({
-    weatherData,
+    weatherData ,
+    cities,
     activePlace
 });
