@@ -40,6 +40,9 @@ class App extends Component {
     componentDidMount() {
         this.collectData();
     }
+    componentWillReceiveProps(){
+        this.collectData();
+    }
 
     render() {
        return (
@@ -61,10 +64,8 @@ class App extends Component {
                             bsStyle="pills"
                             stacked
                             activeKey={this.props.activePlace}
-                            onSelect={(index) => { 
-                                let a = this.props.activePlace;
+                            onSelect={(index) => {
                                 this.props.setActivePlace(index);
-                                    this.collectData();
                             }}>
                             <NavDropdown eventKey="4" title="Select a city" id="nav-dropdown">
                             {this.props.cities.map((city, index) => (
@@ -119,4 +120,5 @@ mapDispatchToProps works normally as far as I can see, so the core of the proble
 collectData method, that receives old state
 */
 
-
+/*in the end the broblem is that props do notget their update from state on time, I need to find a way to call collectData AFTER mapStateToProps fires!!!, mabye i should throw 
+collectData to props as well via mapDisatchToProps or something, cuz right now it is working outside the whole redux thing*/
