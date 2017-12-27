@@ -5,7 +5,7 @@ import configureMyStore from './store/configureStore';
 
 import App from './components/App';
 
-const store = configureMyStore();
+export const store = configureMyStore();
 console.log(`Store state is: `);
 console.dir(store.getState());
 
@@ -24,20 +24,20 @@ render(
 );
 
 
-var citiesArr = {
-    cities:[{ name: "Palo Alto", zip: "94303" },
-      { name: "San Jose", zip: "94088" },
-      { name: "Santa Cruz", zip: "95062" },
-      { name: "Honolulu", zip: "96803" },
-      { name: "Santa Cruz", zip: "95062" },
-      { name: "Honolulu", zip: "96803" },
-      { name: "Novi Sad", zip: "21000" },
-      { name: "Belgrade", zip: "11000" },
-      { name: "Palo Alto", zip: "94303" },
-      { name: "San Jose", zip: "94088" },
-      { name: "Santa Cruz", zip: "95062"},
-      { name: "Honolulu", zip: "96803" },
-      { name: "Novi Sad", zip: "21000" },
-      { name: "Valjevo", zip: "21000" },
-      { name: "Belgrade", zip: "11000" }]
-}
+// var citiesArr = {
+//     cities:[{ name: "Palo Alto", zip: "94303" },
+//       { name: "San Jose", zip: "94088" },
+//       { name: "Santa Cruz", zip: "95062" },
+//       { name: "Honolulu", zip: "96803" },
+//       { name: "Santa Cruz", zip: "95062" },
+//       { name: "Honolulu", zip: "96803" },
+//       { name: "Novi Sad", zip: "21000" },
+//       { name: "Belgrade", zip: "11000" },
+//       { name: "Palo Alto", zip: "94303" },
+//       { name: "San Jose", zip: "94088" },
+//       { name: "Santa Cruz", zip: "95062"},
+//       { name: "Honolulu", zip: "96803" },
+//       { name: "Novi Sad", zip: "21000" },
+//       { name: "Valjevo", zip: "21000" },
+//       { name: "Belgrade", zip: "11000" }]
+// }

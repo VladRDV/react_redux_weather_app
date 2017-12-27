@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchData, setActivePlace } from '../actions/act';
-
-import "bootswatch/lumen/bootstrap.css";
+import "bootswatch/spacelab/bootstrap.css";
 import { Navbar,NavDropdown, MenuItem, Nav, Grid, Row, Col } from "react-bootstrap";
 import '../styles/App.css';
 
-class WeatherDisplay extends Component {
-    render() {
-    const weatherData = this.props.weather;
+function WeatherDisplay(props) {
+    const weatherData = props.weaerData;
     if (!weatherData) return <div>Loading...</div>;
     const weather = weatherData.weather[0];
     const iconUrl = "http://openweathermap.org/img/w/" + weather.icon + ".png";
@@ -24,22 +22,20 @@ class WeatherDisplay extends Component {
         <p>Wind Speed: {weatherData.wind.speed} m/s</p>
       </div>
     );  }
-}
+
 class App extends Component {
     componentDidMount() {
-        this.props.fetchData('http://api.openweathermap.org/data/2.5/weather?q=New York&appid=b1b35bba8b434a28a0be2a3e1071ae5b&units=imperial');
-        this.props.setActivePlace(156);
+        let URL = `http://api.openweathermap.org/data/2.5/weather?q=${this.props.cities[this.props.activePlace].name}&units=metric&appid=b1b35bba8b434a28a0be2a3e1071ae5b&units=imperial`;
+        this.props.fetchData(URL);
     }
 
     render() {
        return (
         <div className="App">
-        {/*<div>
-                    <p>{ this.props.weather.name }</p>
-                    <p>{ this.props.activePlace }</p>
-                    <p>{ this.props.cities[0].name }</p>
-                </div>*/}
             <div>
+            <p>{this.props.cities[this.props.activePlace].name}</p>
+        <p>{this.props.weather.name}</p>
+        <p>{this.props.activePlace}</p> 
                 <Navbar>
                   <Navbar.Header>
                     <Navbar.Brand>
@@ -54,8 +50,8 @@ class App extends Component {
                             bsStyle="pills"
                             stacked
                             activeKey={this.props.activePlace}
-                            onSelect={index => {
-                              setActivePlace(index)
+                            onSelect={(index) => {
+                              this.props.setActivePlace(index)
                             }}>
                             <NavDropdown eventKey="4" title="Select a city" id="nav-dropdown">
                             {this.props.cities.map((city, index) => (
@@ -66,7 +62,7 @@ class App extends Component {
                           </Nav>
                         </Col>
                         <Col md={9} sm={9} lg={9}>
-                            <WeatherDisplay key={0} cityName={this.props.weather.name} />
+                            <WeatherDisplay key={0} cities={this.props.cities} weatherData={this.props.weather} activePlace={this.props.activePlace} />
                         </Col>
                     </Row>
                 </Grid>
