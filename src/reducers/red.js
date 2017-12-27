@@ -27,7 +27,6 @@ export function activePlace(state = 0, action) {
     switch (action.type) {
         case 'SET_ACTIVE_PLACE':
             return action.placeIndex;
-
         default:
             return state;
     }

@@ -1,3 +1,10 @@
+export function setActivePlace(placeIndex) {
+    return {
+        type: 'SET_ACTIVE_PLACE',
+        placeIndex
+    };
+}
+
 export function fetchDataSuccess(fetchedData) {
     return {
         type: 'FETCH_DATA_SUCCESS',
@@ -5,12 +12,7 @@ export function fetchDataSuccess(fetchedData) {
     };
 }
 
-export function setActivePlace(placeIndex) {
-    return {
-        type: 'SET_ACTIVE_PLACE',
-        placeIndex
-    };
-}
+
 export function setCities(cities) {
     return {
         type: 'SET_CITIES',

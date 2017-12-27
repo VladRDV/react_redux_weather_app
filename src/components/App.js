@@ -6,8 +6,14 @@ import { Navbar,NavDropdown, MenuItem, Nav, Grid, Row, Col } from "react-bootstr
 import '../styles/App.css';
 
 function WeatherDisplay(props) {
-    const weatherData = props.weaerData;
-    if (!weatherData) return <div>Loading...</div>;
+    const weatherData = props.weabftherData;
+    if (!weatherData) {
+
+        return (<div>
+                    Loading...{props.activePlace}
+                    <p>{props.weatherData.name}</p>
+                </div>)
+    };
     const weather = weatherData.weather[0];
     const iconUrl = "http://openweathermap.org/img/w/" + weather.icon + ".png";
     return (
@@ -24,18 +30,23 @@ function WeatherDisplay(props) {
     );  }
 
 class App extends Component {
-    componentDidMount() {
+
+    collectData(){
         let URL = `http://api.openweathermap.org/data/2.5/weather?q=${this.props.cities[this.props.activePlace].name}&units=metric&appid=b1b35bba8b434a28a0be2a3e1071ae5b&units=imperial`;
         this.props.fetchData(URL);
+    }
+
+
+    componentDidMount() {
+        this.collectData();
     }
 
     render() {
        return (
         <div className="App">
             <div>
-            <p>{this.props.cities[this.props.activePlace].name}</p>
-        <p>{this.props.weather.name}</p>
-        <p>{this.props.activePlace}</p> 
+            <p>{this.props.cities[this.props.activePlace].name}------ from cities array</p>
+            <p>{this.props.weather.name}----- from API JSON</p>
                 <Navbar>
                   <Navbar.Header>
                     <Navbar.Brand>
@@ -50,8 +61,10 @@ class App extends Component {
                             bsStyle="pills"
                             stacked
                             activeKey={this.props.activePlace}
-                            onSelect={(index) => {
-                              this.props.setActivePlace(index)
+                            onSelect={(index) => { 
+                                let a = this.props.activePlace;
+                                this.props.setActivePlace(index);
+                                    this.collectData();
                             }}>
                             <NavDropdown eventKey="4" title="Select a city" id="nav-dropdown">
                             {this.props.cities.map((city, index) => (
@@ -62,7 +75,7 @@ class App extends Component {
                           </Nav>
                         </Col>
                         <Col md={9} sm={9} lg={9}>
-                            <WeatherDisplay key={0} cities={this.props.cities} weatherData={this.props.weather} activePlace={this.props.activePlace} />
+                            <WeatherDisplay key={0} cities={this.props.cities} weatherData={this.props.weather} activePlace={this.props.activePlace} updateData={this.collectData}/>
                         </Col>
                     </Row>
                 </Grid>
@@ -75,6 +88,8 @@ class App extends Component {
 
 
 const mapStateToProps = (state) => {
+    console.log('mapping state to props...');
+    console.log(state.activePlace);
     return {
         weather: state.weatherData,
         activePlace: state.activePlace,
@@ -92,4 +107,16 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
 mapStateToProps,
 mapDispatchToProps)(App);
+
+/*
+for some reason collectData receives an old version of redux state and 
+as a result of that if we start with ActivePlace of 0
+and select 3, and then 4
+we will stay with view of ActivePlace = 0, when ti should have been view of ActivePlace = 3
+and we will get 3 only, once we select 4(or anything alse actually)
+
+mapDispatchToProps works normally as far as I can see, so the core of the problem is 
+collectData method, that receives old state
+*/
+
 
