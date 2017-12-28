@@ -5,44 +5,64 @@ import "bootswatch/spacelab/bootstrap.css";
 import { Navbar,NavDropdown, MenuItem, Nav, Grid, Row, Col } from "react-bootstrap";
 import '../styles/App.css';
 
-function WeatherDisplay(props) {
-    const weatherData = props.weabftherData;
-    if (!weatherData) {
+class WeatherDisplay extends Component{
 
-        return (<div>
-                    Loading...{props.activePlace}
-                    <p>{props.weatherData.name}</p>
-                </div>)
-    };
-    const weather = weatherData.weather[0];
-    const iconUrl = "http://openweathermap.org/img/w/" + weather.icon + ".png";
-    return (
-      <div>
-        <h1>
-          {weather.main} in {weatherData.name}
-          <img src={iconUrl} alt={weatherData.description} />
-        </h1>
-        <p>Current: {weatherData.main.temp}°C</p>
-        <p>High: {weatherData.main.temp_max}°C</p>
-        <p>Low: {weatherData.main.temp_min}°C</p>
-        <p>Wind Speed: {weatherData.wind.speed} m/s</p>
-      </div>
-    );  }
-
-class App extends Component {
-
-    collectData(){
-        let URL = `http://api.openweathermap.org/data/2.5/weather?q=${this.props.cities[this.props.activePlace].name}&units=metric&appid=b1b35bba8b434a28a0be2a3e1071ae5b&units=imperial`;
+    collectData(place){
+        console.log('collecting data')
+        let URL = `http://api.openweathermap.org/data/2.5/weather?q=${this.props.cities[place].name}&appid=e03fcde097d74790d2a8569aa4d88bd1&units=metric`;
         this.props.fetchData(URL);
     }
 
 
+    componentWillReceiveProps(nextProps) {
+            if(this.props.activePlace !== nextProps.activePlace){
+                this.collectData(nextProps.activePlace);
+            } 
+    }
     componentDidMount() {
-        this.collectData();
+        this.collectData(this.props.activePlace);
     }
-    componentWillReceiveProps(){
-        this.collectData();
-    }
+   render() {
+    const weatherData = this.props.weathData;
+          if (!weatherData) {
+      
+              return (<div>
+                          Loading...{this.props.activePlace}
+                          <p>{this.props.weatherData.name}</p>
+                      </div>)
+          };
+          // const weather = weatherData.weather[0];
+          // const iconUrl = "http://openweathermap.org/img/w/" + weather.icon + ".png";
+          return (
+            <div>
+      
+            <p>{this.props.weatherData.name}</p>
+              {/*<h1>
+                        {weather.main} in {weatherData.name}
+                        <img src={iconUrl} alt={weatherData.description} />
+                      </h1>
+                      <p>Current: {weatherData.main.temp}°C</p>
+                      <p>High: {weatherData.main.temp_max}°C</p>
+                      <p>Low: {weatherData.main.temp_min}°C</p>
+                      <p>Wind Speed: {weatherData.wind.speed} m/s</p>*/}
+            </div>
+          );}  }
+
+class App extends Component {
+
+    // collectData(){
+    //     let URL = `http://api.openweathermap.org/data/2.5/weather?q=${this.props.cities[this.props.activePlace].name}&units=metric&appid=b1b35bba8b434a28a0be2a3e1071ae5b&units=imperial`;
+    //     this.props.fetchData(URL);
+    // }
+
+
+    // // componentWillUnmount() {
+    // //     this.collectData();
+    // // }
+    // componentDidMount() {
+    //     this.collectData();
+    // }
+    
 
     render() {
        return (
@@ -76,7 +96,7 @@ class App extends Component {
                           </Nav>
                         </Col>
                         <Col md={9} sm={9} lg={9}>
-                            <WeatherDisplay key={0} cities={this.props.cities} weatherData={this.props.weather} activePlace={this.props.activePlace} updateData={this.collectData}/>
+                            <WeatherDisplay key={0} cities={this.props.cities} weatherData={this.props.weather} activePlace={this.props.activePlace} fetchData={this.props.fetchData}/>
                         </Col>
                     </Row>
                 </Grid>
