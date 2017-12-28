@@ -6,13 +6,10 @@ import configureMyStore from './store/configureStore';
 import App from './components/App';
 
 export const store = configureMyStore();
-console.log(`Store state is: `);
-console.dir(store.getState());
-
-store.subscribe(()=>{
-	console.log(`Store state has changed: `);
-	console.dir(store.getState());
-})
+// store.subscribe(()=>{
+// 	console.log(`Store state has changed: `);
+// 	console.dir(store.getState());
+// });
 render(
     <Provider store={store}>
         <App />
